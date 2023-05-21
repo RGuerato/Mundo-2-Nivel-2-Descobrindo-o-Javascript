@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ordenando Valor</title>
+    <script src="ordenando.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid bg-success">
+      <h1>Ordenando Valores</h1>
+      <label for="valor" >Valor:</label>
+      <input type="number" id="valor" />
+      <br>
+      <button onclick="add()" class="bg-warning">Adicionar</button>
+      <br>
+      <label for="algoritmo">Algoritmo:</label>
+      <select id="algoritmo">
+      <option value="bubble" selected >Bubble Sort</option>
+      <option value="selection">Selection Sort</option>
+      <option value="quick">Quick Sort</option>
+      </select>
+      <br>
+      <button onclick="ordenar()" class="bg-warning">Ordenar</button>
+      <button onclick="misturar()" class="bg-warning">Misturar</button>
+    </div>
+    <hr class="bg-danger">
+    <ul id="valores" class="bg-info"></ul>
+    <script>
+      function add() {
+        const valorInput = document.getElementById("valor");
+        const valoresLista = document.getElementById("valores");
+        const node = document.createElement("li");
+        const textNode = document.createTextNode(valorInput.value);
+        node.appendChild(textNode);
+        valoresLista.appendChild(node);
+        valorInput.value = "";
+      }
+
+      function ordenar() {
+        const valoresLista = document.getElementById("valores");
+        const valores = Array.from(valoresLista.children).map((li) =>
+          parseInt(li.innerHTML)
+        );
+        const algoritmo = document.getElementById("algoritmo").value;
+        switch (algoritmo) {
+          case "bubble":
+            bubble_sort(valores);
+            break;
+          case "selection":
+            selection_sort(valores);
+            break;
+          case "quick":
+            quick_sort(valores, 0, valores.length - 1);
+            break;
+        }
+        valoresLista.innerHTML = valores
+          .map((valor) => `<li>${valor}</li>`)
+          .reduce((a, b) => a + b);
+      }
+
+      function misturar() {
+        const valoresLista = document.getElementById("valores");
+        const valores = Array.from(valoresLista.children).map((li) =>
+          parseInt(li.innerHTML)
+        );
+        shuffle(valores, valores.length);
+        valoresLista.innerHTML = valores
+          .map((valor) => `<li>${valor}</li>`)
+          .reduce((a, b) => a + b);
+      }
+    </script>
+  </body>
+</html>
